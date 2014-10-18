@@ -1,0 +1,19 @@
+#include<iostream>
+using namespace std;
+struct BinaryTree
+{
+       BinaryTree data;
+       BinaryTree *left;
+       BinaryTree * right;
+};
+int main(int argc, char *argv[]){
+     BinaryTree *root;
+     BinaryTree  * bt = new BinaryTree;
+     if(bt){
+
+
+
+    }
+
+return 0;
+}
