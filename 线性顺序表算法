@@ -1,0 +1,136 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+typedef  unsigned int Elem;
+typedef struct _tag_SeqList
+{
+	int capacity;
+	int length;
+	Elem * node;
+
+}SeqList; 
+
+SeqList * SeqList_Creat(int capacity)//创建并返回一个空的线性顺序表
+{
+	SeqList * ret = NULL;
+	if (capacity < 0)
+		return NULL;
+	ret = (SeqList*)malloc(sizeof(SeqList)+sizeof(unsigned int)*capacity);
+	if (ret == NULL)
+		return NULL;
+	ret->capacity = capacity;
+	ret->length = 0;
+	ret->node = (unsigned int*)(ret + 1);
+	return  ret;
+}
+
+void  SeqList_Destroy(SeqList *list){//销毁一个线性顺序表list
+	if (list == NULL)
+		return;
+	free(list);
+	return;
+}
+void SeqList_Clear(SeqList *list){//将一个线性表list中的所有元素清空，线性表回到创建时的初始状态
+	SeqList * tlist;
+	if (list == NULL)
+		return;
+	tlist = list;
+	tlist->length = 0;
+	return;
+}
+int SeqList_Length(SeqList *list){//返回一个线性表list中所有元素个数
+	SeqList * tlist = list;
+	if (tlist == NULL)
+		return -1;
+	return tlist->length;
+}
+
+int  SeqList_capacity(SeqList * list){//返回一个线性表list中最大容量
+	SeqList* tlist = list;
+	if (tlist == NULL)
+		return -1;
+	return tlist->capacity;
+}
+
+int SeqList_Insert(SeqList * list, Elem *node, int pos){//在线性表list指定位置插入一个元素
+	int j = 0;
+	SeqList * tlist = list;
+	if (tlist == NULL || node == NULL)
+		return -1;
+	if (pos < 0 || pos > tlist->capacity)
+		return -2;
+	if (tlist->length >= tlist->capacity)//判断线性表是否已满
+		return -3;
+	if (pos > tlist->length)//容错
+		pos = tlist->length;
+	for (j = tlist->length; j > pos; j--)
+	{
+		tlist->node[j] = tlist->node[j - 1];
+	}
+	tlist->node[pos] = (Elem)node;
+	tlist->length++;
+	return 0;
+}
+SeqList* SeqList_Get(SeqList *list, int pos){//获取线性表指定位置的元素
+	int i = 0;
+	SeqList * tlist = list;
+	if (list == NULL || pos < 0 || pos >tlist->length)
+		return NULL;
+	return tlist->node[pos];
+
+}
+
+int SeqList_Local(SeqList * list, Elem node){//按元素值查找算法
+	int i = 0;
+	while (i < list->length&& list->node[i] != node)i++;
+	if (i >list->length)
+		return 0;
+	else
+		return (i + 1);
+
+
+}
+
+SeqList* SeqList_Delete(SeqList * list, int pos){//删除一个线性表list指定位置元素并返回
+	int i = 0;
+		SeqList * tlist = list;
+		SeqList * ret = NULL;
+		if (list == NULL || pos <0 || pos >tlist->length)
+			retur NULL;
+		ret = tlist->node[pos];//缓存要删除的结点
+		for (i = pos + 1; i < tlist->length; i++)//对线性表进行移动
+			tlist->node[i - 1] = tlist->node[i];
+		tlist->length--;
+		return ret;
+
+}
+
+void SeqList_Merge(SeqList L1, SeqList L2, SeqList &L3){//有序顺序表的归并算法
+	int i = 0, j = 0, k = 0;
+	while (i < L1.length&&j < L2.length){
+		if (L1.node[i] < L2.node[j]){
+			L3.node[k] = L1.node[i];
+			i++; k++;
+		}
+		else if (L1.node[i]>L2.node[j])
+		{
+			L3.node[k] = L2.node[j];
+			j++; k++;
+
+		}
+		else
+		{
+			L3.node[k] = L1.node[i];
+			i++; j++; k++;
+		}
+	}
+	while (i < L1.length){
+		L3.node[k] = L1.node[i];
+		i++; k++;
+	}
+	while (j < L2.length){
+		L3.node[k] = L2.node[j];
+		j++; k++;
+	}
+	L3.length = k;
+}
