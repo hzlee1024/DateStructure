@@ -71,7 +71,7 @@ int SeqList_Insert(SeqList * list, Elem *node, int pos){//在线性表list指定
 	tlist->length++;
 	return 0;
 }
-SeqList* SeqList_Get(SeqList *list, int pos){//获取线性表指定位置的元素
+Elem * SeqList_Get(SeqList *list, int pos){//获取线性表指定位置的元素
 	int i = 0;
 	SeqList * tlist = list;
 	if (list == NULL || pos < 0 || pos >tlist->length)
@@ -80,7 +80,7 @@ SeqList* SeqList_Get(SeqList *list, int pos){//获取线性表指定位置的元
 
 }
 
-int SeqList_Local(SeqList * list, Elem node){//按元素值查找算法
+int SeqList_Local(SeqList * list, Elem node){//按元素值查找返回位置算法
 	int i = 0;
 	while (i < list->length&& list->node[i] != node)i++;
 	if (i >list->length)
@@ -91,10 +91,10 @@ int SeqList_Local(SeqList * list, Elem node){//按元素值查找算法
 
 }
 
-SeqList* SeqList_Delete(SeqList * list, int pos){//删除一个线性表list指定位置元素并返回
+Elem* SeqList_Delete(SeqList * list, int pos){//删除一个线性表list指定位置元素并返回
 	int i = 0;
 		SeqList * tlist = list;
-		SeqList * ret = NULL;
+		Elem * ret = NULL;
 		if (list == NULL || pos <0 || pos >tlist->length)
 			retur NULL;
 		ret = tlist->node[pos];//缓存要删除的结点
